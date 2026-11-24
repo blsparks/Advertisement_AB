@@ -1,69 +1,77 @@
-# Age-Based Memory Retention Analysis
+# Marketing A/B Testing — Advertising Conversion Optimization
 
 ## Project Overview
 
-This project uses nonparametric statistical methods in R to investigate whether word recall among 18-year-old males exceeds a reference median reported for 65-year-old males.
+This project analyzes an A/B test involving 588,101 users to determine whether displaying commercial advertisements increases conversion rates compared to public service announcements (PSAs). The goal is to evaluate the effectiveness of the advertising campaign and provide a data-driven rollout recommendation.
 
-**Research question:** Is the population median number of recalled words for 18-year-old males greater than the reference median of 4 words for 65-year-old males?
+## Business Questions
 
-## Technologies and Methods
+- Do advertisements significantly improve conversion rates?
+- How large is the improvement in conversion?
+- How does advertisement frequency relate to conversion rates?
+- Should the company roll out the advertising campaign?
 
-- **Language:** R
-- **Package:** BSDA
-- **Methods:** One-sample sign test, descriptive statistics, 95% confidence intervals
-- **Visualizations:** Histograms and boxplots (base R)
+## Dataset
 
-## Data
+The [Marketing A/B Testing dataset](https://www.kaggle.com/datasets/faviovaz/marketing-ab-testing) contains 588,101 user records, including experiment assignments, conversion outcomes, advertisement frequency, and exposure times.
 
-The analysis uses 10 word-recall observations for 18-year-old males:
+- **Control Group:** Users shown public service announcements.
+- **Treatment Group:** Users shown commercial advertisements.
+- **Primary Metric:** Conversion rate.
 
-```r
-words <- c(15, 7, 12, 14, 11, 10, 4, 13, 9, 2)
-```
+## Methodology
 
-The reference median for 65-year-old males is **4 words**. The original analysis provides this benchmark, not individual observations from the older group.
-
-| Statistic | Value |
-|---|---:|
-| Sample size | 10 |
-| Mean | 9.70 |
-| Median | 10.50 |
-| Standard deviation | 4.27 |
-| Minimum | 2 |
-| Maximum | 15 |
-| Older-group reference median | 4 |
-
-## Analysis
-
-### Exploratory Data Analysis
-
-Calculated the mean, median, standard deviation, and summary statistics for word recall. Created a histogram and boxplot with reference lines at 4 words to compare the observed scores with the older-group benchmark.
-
-### Hypothesis Test
-
-A **one-sample sign test** was used to test whether the median recall score exceeded 4 words without assuming normally distributed data.
-
-- **Null hypothesis (H₀):** Population median word recall is 4 words.
-- **Alternative hypothesis (H₁):** Population median word recall is greater than 4 words.
-- **Significance level:** α = 0.05
-- **One-sided p-value:** **0.01953**
-
-Because the p-value is below 0.05, the test rejects the null hypothesis in favor of higher median recall for the younger group relative to the reference value.
-
-### Confidence Interval
-
-The sign-test output also reports a **95% two-sided interpolated confidence interval for the median of approximately [4.97, 13.68] words**. This interval comes from the two-sided test; the one-sided test produces a different, one-sided interval.
+- Performed data cleaning and validation to identify missing values, duplicate users, and invalid experiment assignments.
+- Compared conversion rates between the control and treatment groups.
+- Conducted a two-proportion Z-test at a 5% significance level.
+- Calculated absolute lift, relative lift, and a 95% confidence interval.
+- Analyzed the relationship between advertisement frequency and conversion rates.
+- Estimated incremental conversions and break-even advertising costs.
 
 ## Key Findings
 
-1. **Higher median recall:** The younger group recalled a median of **10.5 words**, compared with the older-group benchmark of **4 words**.
-2. **Statistical significance:** The one-sided sign test returned **p = 0.0195**, indicating evidence that the younger group's population median exceeds the benchmark.
-3. **Observed distribution:** Eight of the 10 observations exceeded 4 words, one equaled 4, and one was below 4.
+| Metric | Result |
+|---|---:|
+| Total Users | 588,101 |
+| Control Conversion Rate | 1.79% |
+| Treatment Conversion Rate | 2.55% |
+| Absolute Conversion Lift | +0.769 percentage points |
+| Relative Conversion Lift | +43.09% |
+| P-value | 1.705 × 10⁻¹³ |
+| 95% Confidence Interval | [0.587, 0.936] pp |
+| Estimated Incremental Conversions | 4,343 |
 
-## Practical Takeaway
+The hypothesis test revealed a statistically significant improvement in conversion rates for users who received advertisements.
 
-This analysis demonstrates how a nonparametric hypothesis test can evaluate a difference in typical performance even when normality is not assumed. The results provide evidence of higher word recall in the sampled younger group relative to the older-group reference median.
+### Advertisement Frequency
 
+Conversion rates increased as users received more advertisements, ranging from 0.25% among users who received five or fewer ads to 17.14% among users who received more than 100 ads.
 
+However, this relationship is observational and does not establish that increasing advertisement frequency directly causes higher conversions.
 
+## Business Impact
 
+- Estimated 769 additional conversions per 100,000 users exposed to the advertising treatment.
+- Using an assumed contribution margin of $50 per conversion, the estimated break-even incremental advertising cost is approximately $0.38 per user.
+
+## Conclusion and Recommendation
+
+Based on the statistically significant 43.09% relative improvement in conversion rates, I recommend a phased rollout of the advertising campaign, provided that experiment assignment is valid and incremental contribution exceeds advertising costs.
+
+I also recommend maintaining a randomized control group to monitor campaign performance and conducting a follow-up A/B test to determine the optimal advertisement frequency.
+
+## Technologies Used
+
+- Python
+- Pandas
+- Matplotlib
+- Statsmodels
+- Jupyter Notebook
+
+## Running the Project
+
+1. Clone the repository.
+2. Download `marketing_AB.csv` from Kaggle.
+3. Place the dataset in the same directory as the notebook.
+4. Install the required Python libraries.
+5. Open and run the Jupyter notebook.
